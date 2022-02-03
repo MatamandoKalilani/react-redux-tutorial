@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+import { useSelector, useDispatch } from "react-redux";
+import "./App.css";
+
+//Actions
+import { clearProfile, updateProfile } from "./redux/actions/profile.js";
 
 function App() {
+  let dispatch = useDispatch();
+  const profile = useSelector((state) => state.profile);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {profile.firstName && profile.lastName && (
+        <h1 className="name">{`${profile.firstName} ${profile.lastName} `}</h1>
+      )}
+
+      {profile.description && (
+        <p className="description">{profile.description}</p>
+      )}
+
+      <button
+        className="button"
+        onClick={() => {
+          dispatch(
+            updateProfile(
+              "Matamando",
+              "Kalilani",
+              "I am definetly a real person, no promises."
+            )
+          );
+        }}
+      >
+        {" "}
+        Make a Change
+      </button>
+
+      <button
+      className="button"
+        onClick={() => {
+          dispatch(clearProfile());
+        }}
+      >
+        {" "}
+        Clear Everything
+      </button>
     </div>
   );
 }
